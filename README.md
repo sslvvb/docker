@@ -12,44 +12,44 @@
 
 - Проверить, что образ запустился через `docker ps`.
 
-![nginx](/src/images/1_1.png)
+![nginx](/images/1_1.png)
 
 - Посмотреть информацию о контейнере через `docker inspect [container_id|container_name]`. 
 
   - размер контейнера (с флагом -s, в kB));
-  ![size](/src/images/1_3.png)
+  ![size](/images/1_3.png)
   - список замапленных портов и ip контейнера.
-  ![port, ip](/src/images/1_2.png)
+  ![port, ip](/images/1_2.png)
 
 - Остановить докер образ через `docker stop [container_id|container_name]`.
 
 - Проверить, что образ остановился через `docker ps`.
 
-![stop](/src/images/1_4.png)
+![stop](/images/1_4.png)
 
 - Запустить докер с замапленными портами 80 и 443 на локальную машину через команду `docker run`.
 
 - Проверить, что в браузере по адресу *localhost:80* доступна стартовая страница nginx
 
-![run](/src/images/1_5.png)
+![run](/images/1_5.png)
 
-![nginx](/src/images/1_6.png)
+![nginx](/images/1_6.png)
 
 - Перезапустить докер образ через `docker restart [container_id|repository]`
 
 - Проверить любым способом, что контейнер запустился
 
-![restart](/src/images/1_7.png)
+![restart](/images/1_7.png)
 
 ## Part 2. Операции с контейнером
 
 - Прочитать конфигурационный файл *nginx.conf* внутри докер образа через команду `docker exec [container] [command]`
 
-![conf](/src/images/1_8.png)
+![conf](/images/1_8.png)
 
 - Создать на локальной машине файл *nginx.conf*, настроить в нем по пути */status* отдачу страницы статуса сервера **nginx**
 
-![my config with status](/src/images/1_9.png)
+![my config with status](/images/1_9.png)
 
 - Скопировать созданный файл *nginx.conf* внутрь докер образа через команду `docker cp [src_path] [container]:[dst_path]`
 
@@ -57,39 +57,39 @@
 
 - Проверить, что по адресу *localhost:80/status* отдается страничка со статусом сервера **nginx**
 
-![copy reload](/src/images/1_10.png)
+![copy reload](/images/1_10.png)
 
-![status](/src/images/1_11.png)
+![status](/images/1_11.png)
 
 - Экспортировать контейнер в файл *container.tar* через команду ` docker export [continer] > container.tar`
 
-![export](/src/images/1_12.png)
+![export](/images/1_12.png)
 
 - Остановить контейнер
 
-![stop](/src/images/1_13.png)
+![stop](/images/1_13.png)
 
 - Удалить образ через `docker rmi [image_id|repository]`, не удаляя перед этим контейнеры
 
-![rmi](/src/images/1_14.png)
+![rmi](/images/1_14.png)
 
 - Импортировать контейнер обратно через команду `docker import [file]`
 
-![import](/src/images/1_15.png)
+![import](/images/1_15.png)
 
 - Запустить импортированный контейнер
 
-![import](/src/images/1_16.png)
+![import](/images/1_16.png)
 
 ## Part 3. Мини веб-сервер
 
 - Написать мини сервер на **C** и **FastCgi**, который будет возвращать простейшую страничку с надписью `Hello World!`
 
-![mini server](/src/images/3_1.png)
+![mini server](/images/3_1.png)
 
 - Написать свой *nginx.conf*, который будет проксировать все запросы с 81 порта на *127.0.0.1:8080*
 
-![81-8080](/src/images/3_2.png)
+![81-8080](/images/3_2.png)
 
 - Запустить написанный мини сервер через *spawn-cgi* на порту 8080
 
@@ -97,45 +97,45 @@
 
 - Проверить, что в браузере по *localhost:81* отдается написанная вами страничка
 
-![hello](/src/images/3_3.png)
+![hello](/images/3_3.png)
 
 - Положить файл *nginx.conf* по пути *./nginx/nginx.conf* (это понадобиться позже)
 
-![nginx](/src/images/3_4.png)
+![nginx](/images/3_4.png)
 
 ## Part 4. Свой докер образ
 
 - Написать свой докер образ, который: 1) собирает исходники мини сервера на FastCgi из Части 3; 2) запускает его на 8080 порту; 3) копирует внутрь образа написанный *./nginx/nginx.conf*; 4) запускает **nginx**.
 
-![dockerfile](/src/images/4_1.png)
+![dockerfile](/images/4_1.png)
 
 - Собрать написанный докер образ через `docker build` при этом указав имя и тег (`docker build -f Dockerfile_task_4 -t my_docker:version_1.0 .`)
 
-![build](/src/images/4_2.png)
+![build](/images/4_2.png)
 
 - Проверить через `docker images`, что все собралось корректно
 
-![images](/src/images/4_3.png)
+![images](/images/4_3.png)
 
 - Запустить собранный докер образ с маппингом 81 порта на 80 на локальной машине и маппингом папки *./nginx* внутрь контейнера по адресу, где лежат конфигурационные файлы **nginx**'а (`docker run --name task4 -p 80:81 --mount type=bind,src=<src>,dst=/etc/nginx/nginx.conf -dt my_docker:version_1.0`)
 
-![run](/src/images/4_4.png)
+![run](/images/4_4.png)
 
 - Проверить, что по localhost:80 доступна страничка написанного мини сервера
 
-![curl](/src/images/4_5.png)
+![curl](/images/4_5.png)
 
 - Дописать в *./nginx/nginx.conf* проксирование странички */status*, по которой надо отдавать статус сервера **nginx**
 
-![config](/src/images/4_6.png)
+![config](/images/4_6.png)
 
 - Перезапустить докер образ. Если всё сделано верно, то, после сохранения файла и перезапуска контейнера, конфигурационный файл внутри докер образа должен обновиться самостоятельно без лишних действий
 
-![restart](/src/images/4_7.png)
+![restart](/images/4_7.png)
 
 - Проверить, что теперь по *localhost:80/status* отдается страничка со статусом **nginx**
 
-![curl](/src/images/4_8.png)
+![curl](/images/4_8.png)
 
 ## Part 5. Dockle
 
@@ -156,16 +156,16 @@ curl http://localhost:80 -->
 
 - Замапить 8080 порт второго контейнера на 80 порт локальной машины
 
-![compose](/src/images/6_1.png)
+![compose](/images/6_1.png)
 
 - Остановить все запущенные контейнеры
 
-![stop](/src/images/6_2.png)
+![stop](/images/6_2.png)
 
 - Собрать и запустить проект с помощью команд `docker-compose build` и `docker-compose up`
 
-![up](/src/images/6_3.png)
+![up](/images/6_3.png)
 
 - Проверить, что в браузере по *localhost:80* отдается написанная страничка, как и ранее
 
-![curl](/src/images/6_4.png)
+![curl](/images/6_4.png)
