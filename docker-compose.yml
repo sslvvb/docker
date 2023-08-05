@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  server:
+    image: server:version_1.0
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile_task_5
+
+
+  client:
+    image: client:version_1.0
+    container_name: client
+    build: client/
+    depends_on:
+    - server
+    ports:
+      - 80:8080

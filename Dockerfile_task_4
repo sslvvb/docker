@@ -1,0 +1,9 @@
+FROM nginx
+
+COPY /nginx/nginx.conf /etc/nginx/nginx.conf
+COPY /server/server.c /server/server.c
+COPY /task4.sh /server/task4.sh
+
+RUN apt-get update && apt install -y gcc libfcgi-dev spawn-fcgi make;
+
+CMD [ "./server/task4.sh" ]
