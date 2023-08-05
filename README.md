@@ -143,12 +143,12 @@
 
 - Исправить контейнер так, чтобы при проверке через **dockle** не было ошибок и предупреждений
 
-<!-- docker rm -f task5
-docker rmi my_docker:version_2.0
-docker build -f Dockerfile_task_5 -t my_docker:version_2.0 .
-docker run --name task5 -p 80:81 -dt my_docker:version_2.0
-dockle my_docker:version_2.0
-curl http://localhost:80 -->
+`docker rm -f task5`
+`docker rmi my_docker:version_2.0`
+`docker build -f Dockerfile_task_5 -t my_docker:version_2.0 .`
+`docker run --name task5 -p 80:81 -dt my_docker:version_2.0`
+`dockle my_docker:version_2.0`
+`curl http://localhost:80`
 
 ## Part 6. Docker Compose
 
